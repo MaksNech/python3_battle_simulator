@@ -1,0 +1,94 @@
+{
+  "armies_list": [
+    {
+      "class": "Army",
+      "formations_list": [
+        {
+          "class": "Squad",
+          "units_list": [
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            }
+          ]
+        },
+        {
+          "class": "Squad",
+          "units_list": [
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class": "Army",
+      "formations_list": [
+        {
+          "class": "Squad",
+          "units_list": [
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            },
+            {
+              "class": "Soldier"
+            }
+          ]
+        },
+        {
+          "class": "Squad",
+          "units_list": [
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            },
+            {
+              "class": "Vehicle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
