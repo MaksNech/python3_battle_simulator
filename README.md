@@ -5,7 +5,7 @@
 ### Clone project in a new directory:
 ```bash
 cd path/to/a/new/directory
-git clone https://github.com/MaksNech/pylab2018_ht_4-5.git
+git clone https://github.com/MaksNech/pylab2018_ht_4-9.git
 ```
 
 ## 2: Getting Started
