@@ -3,7 +3,7 @@ from .armedforces.formations.units.vehicle import Vehicle
 from models.configurations import SIMULATOR_CONFIG as CONFIG
 
 
-class BattleLog():
+class BattleCustomLog():
 
     def display_armies_set(self, armies_set: set) -> None:
         """
@@ -11,7 +11,7 @@ class BattleLog():
         :param armies_set: (set)
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('CURRENT ARMIES SET obj: {}'.format(armies_set))
 
@@ -22,7 +22,7 @@ class BattleLog():
         :param step: (int)
         :return: (int)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('\n')
             print('#' * 70)
             print('STEP: {}'.format(step))
@@ -37,7 +37,7 @@ class BattleLog():
         :param own_formation: Formed(abc) child class object
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('CURRENT OWN_FORMATION obj: {}'.format(own_formation))
             print('contains:')
@@ -50,7 +50,7 @@ class BattleLog():
         :param opposing_formation: Formed(abc) child class object
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('CURRENT OPPOSING_FORMATION obj: {}'.format(opposing_formation))
             print('contains:')
@@ -62,7 +62,7 @@ class BattleLog():
         Display in terminal units recharging info
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print("UNITS ARE NOT READY, RECHARGING...")
 
@@ -73,7 +73,7 @@ class BattleLog():
         :param opposing_formation: Formed(abc) child class object
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('SUCCESSFULL ATTACK')
             print('CURRENT OWN_FORMATION attack success probability: {}'.format(own_formation._attack_success))
@@ -91,7 +91,7 @@ class BattleLog():
         :param opposing_formation: Formed(abc) child class object
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('UNSUCCESSFULL ATTACK')
             print('CURRENT OWN_FORMATION attack success probability: {}'.format(own_formation._attack_success))
@@ -104,7 +104,7 @@ class BattleLog():
         :param own_formation: Formed(abc) child class object
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('CURRENT OWN_FORMATION units experience:')
             for unit in own_formation._units:
@@ -120,7 +120,7 @@ class BattleLog():
         :param army: (Army)
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('*' * 70)
             print('DESTROYED ARMY obj: {}'.format(army))
 
@@ -130,7 +130,7 @@ class BattleLog():
         :param army: (Army)
         :return: (None)
         """
-        if CONFIG['display_log']:
+        if CONFIG['display_custom_log']:
             print('\n')
             print('#' * 70)
             print()

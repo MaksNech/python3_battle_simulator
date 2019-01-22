@@ -18,14 +18,14 @@ class Squad(FormationFactory, Formed, FormationMixin):
 
     def to_attack(self) -> Decimal:
         """
-        Сalculate the success rate of a squad’s attack.
+        Calculate the success rate of a squad’s attack.
         :return: (Decimal)
         """
         return round(Decimal(self.gmean([unit.to_attack() for unit in self._units])), 4)
 
     def to_damage(self) -> float:
         """
-        Сalculate the amount of damage caused by the squad to enemy
+        Calculate the amount of damage caused by the squad to enemy
         :return: (float)
         """
         self._last_to_damage_val = sum([unit.to_damage() for unit in self._units])

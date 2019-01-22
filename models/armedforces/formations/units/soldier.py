@@ -31,14 +31,14 @@ class Soldier(Unitary, UnitMixin, UnitFactory):
 
     def to_attack(self) -> float:
         """
-        Сalculate the success rate of a soldier’s attack.
+        Calculate the success rate of a soldier’s attack.
         :return: (float)
         """
         return 0.5 * (1 + self.health / 100) * randint(50 + self._experience, 100) / 100
 
     def to_damage(self) -> float:
         """
-        Сalculate the amount of damage caused by the soldier to enemy.
+        Calculate the amount of damage caused by the soldier to enemy.
         :return: (float)
         """
         current_time = self._timer.get_current_time()
@@ -47,7 +47,7 @@ class Soldier(Unitary, UnitMixin, UnitFactory):
             self._last_attack_time = current_time
             return 0.05 + self._experience / 100
         else:
-            return 0
+            return float(0)
 
     def get_damage(self, dmg_val) -> None:
         """

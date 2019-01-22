@@ -1,3 +1,4 @@
+import operator
 from functools import reduce
 from decimal import Decimal
 from random import choice
@@ -64,24 +65,25 @@ class FormationMixin:
 
     def gmean(self, data_list: list) -> float:
         """
-        Сalculate the geometric mean.
+        Calculate the geometric mean.
         :param data_list: (list)
         :return: (float)
         """
-        return reduce(lambda x, y: x * y, data_list) ** (1.0 / len(data_list))
+        return reduce(operator.mul, data_list) ** (1 / len(data_list))
 
     def check_formation_is_active(self) -> bool:
         """
         Check the formation activity.
         :return: (bool)
         """
+
         if self._active is True:
-            for unit in self._units:
-                if unit.check_unit_is_active() is False:
-                    self._units.remove(unit)
+            self._units = [unit for unit in self._units if unit.check_unit_is_active() is True]
             if len(self._units) > 0:
                 self._active = True
                 return True
             else:
                 self._active = False
                 return False
+        else:
+            return False

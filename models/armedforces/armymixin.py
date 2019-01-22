@@ -88,15 +88,13 @@ class ArmyMixin:
         :return: (bool)
         """
         if self._active is True:
-            for own_formation in self._own_formations:
-                if own_formation.check_formation_is_active():
-                    continue
-                else:
-                    self._own_formations.remove(own_formation)
-
+            self._own_formations = [own_formation for own_formation in self._own_formations if
+                                    own_formation.check_formation_is_active() is True]
             if len(self._own_formations) > 0:
                 self._active = True
                 return True
             else:
                 self._active = False
                 return False
+        else:
+            return False

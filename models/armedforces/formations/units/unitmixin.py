@@ -1,3 +1,4 @@
+import operator
 from random import randint
 from functools import reduce
 from .timer import Timer
@@ -75,11 +76,11 @@ class UnitMixin:
 
     def gmean(self, data_list: list) -> float:
         """
-        Сalculate the geometric mean.
+        Calculate the geometric mean.
         :param data_list: (list)
         :return: (float)
         """
-        return reduce(lambda x, y: x * y, data_list) ** 1.0 / len(data_list)
+        return reduce(operator.mul, data_list) ** (1/len(data_list))
 
     def check_unit_is_active(self) -> bool:
         """
@@ -93,3 +94,5 @@ class UnitMixin:
             else:
                 self._active = False
                 return False
+        else:
+            return False
