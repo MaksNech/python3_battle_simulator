@@ -8,5 +8,6 @@ SIMULATOR_CONFIG = {
     'formations_per_army': randint(2, 10),
     'units_per_formation': randint(5, 10),
     'speed_up_recharge_val': 100,
-    'display_log': False
+    'enable_python_logging': False,
+    'display_custom_log': False
 }

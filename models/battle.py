@@ -1,11 +1,13 @@
 import datetime
-from .log import BattleLog
+from .customlog import BattleCustomLog
 from .jsonparser import JsonParser
 from .configurations import SIMULATOR_CONFIG as CONFIG
 from .armedforces.army import Army
+from .logging import enable_logger, BattlePythonLog
 
 
-class Battle(BattleLog, JsonParser):
+
+class Battle(BattlePythonLog, BattleCustomLog, JsonParser):
 
     def __init__(self):
         self._armies_set = set()
@@ -65,6 +67,22 @@ class Battle(BattleLog, JsonParser):
         """
         strategy_list = ['random', 'weakest', 'strongest']
         speed_up_recharge_list = [1, 10, 100]
+        self.set_armies_amount_config()
+        self.set_attack_strategy_config(strategy_list)
+        self.set_speed_up_recharge_val_config(speed_up_recharge_list)
+        self.set_formations_per_army_config()
+        self.set_units_per_formation_config()
+        self.set_enable_python_logging_config()
+        self.set_display_custom_log_config()
+
+
+
+
+    def set_armies_amount_config(self) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 46)
         while True:
             try:
@@ -74,6 +92,12 @@ class Battle(BattleLog, JsonParser):
                 break
             except ValueError:
                 print("Invalid integer. The number must be in the range from 2 or more.")
+
+    def set_attack_strategy_config(self, strategy_list) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 46)
         while True:
             try:
@@ -89,6 +113,12 @@ class Battle(BattleLog, JsonParser):
                 break
             except ValueError:
                 print("Invalid integer. The number must be in the range of 0-2.")
+
+    def set_speed_up_recharge_val_config(self, speed_up_recharge_list) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 46)
         while True:
             try:
@@ -104,6 +134,12 @@ class Battle(BattleLog, JsonParser):
                 break
             except ValueError:
                 print("Invalid integer. The number must be in the range of 0-2.")
+
+    def set_formations_per_army_config(self) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 55)
         while True:
             try:
@@ -114,6 +150,11 @@ class Battle(BattleLog, JsonParser):
             except ValueError:
                 print("Invalid integer. The number must be in the range from 2 or more.")
 
+    def set_units_per_formation_config(self) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 55)
         while True:
             try:
@@ -124,12 +165,34 @@ class Battle(BattleLog, JsonParser):
             except ValueError:
                 print("Invalid integer. The number must be in the range of 5-10.")
 
+    def set_enable_python_logging_config(self) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
         print('*' * 55)
         while True:
             try:
-                CONFIG['display_log'] = int(
-                    input('Display battle logs in terminal? ("Yes" — input 1 | "No" — input 0): '))
-                if CONFIG['display_log'] < 0 or CONFIG['display_log'] > 1:
+                CONFIG['enable_python_logging'] = bool(int(
+                    input('Enable python module logs in terminal? ("Yes" — input 1 | "No" — input 0): ')))
+                enable_logger()
+                if CONFIG['enable_python_logging'] < 0 or CONFIG['enable_python_logging'] > 1:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Invalid integer. The number must be 0 or 1.")
+
+    def set_display_custom_log_config(self) -> None:
+        """
+        Setting simulator configurations.
+        :return: (None)
+        """
+        print('*' * 55)
+        while True:
+            try:
+                CONFIG['display_custom_log'] = int(
+                    input('Display custom battle logs in terminal? ("Yes" — input 1 | "No" — input 0): '))
+                if CONFIG['display_custom_log'] < 0 or CONFIG['display_custom_log'] > 1:
                     raise ValueError
                 break
             except ValueError:
@@ -170,7 +233,8 @@ class Battle(BattleLog, JsonParser):
         """
         print("—————————————————————————————————————")
         print("|       The battle is over!         |")
-        print("|     BATTLE TIME: mm:{} ss:{}       |".format(battle_timedelta.seconds // 60, battle_timedelta.seconds))
+        print("|     BATTLE TIME: mm:{} ss:{}       |".format(battle_timedelta.seconds // 60,
+                                                              battle_timedelta.seconds % 60))
         print("—————————————————————————————————————")
         print('The winning army is: {}'.format(armies_set))
 
@@ -206,32 +270,40 @@ class Battle(BattleLog, JsonParser):
         lock = True
         while (lock):
             self.display_armies_set(self._armies_set)
+            self.logging_armies_set(self._armies_set)
 
             for army in self._armies_set:
                 self._step = self.display_army_info(army, self._step)
+                self.logging_army_info(army)
 
                 for own_formation in army.own_formations:
                     self.own_formation_info(own_formation)
+                    self.logging_own_formation_info(own_formation)
                     strategy = army.__getattribute__(CONFIG['attack_strategy'])
                     opposing_formation = strategy(self._armies_set)
                     self.opposing_formation_info(opposing_formation)
+                    self.logging_opposing_formation_info(opposing_formation)
 
                     if own_formation._attack_success > opposing_formation._attack_success:
                         dmg_val_to_opposing = own_formation.to_damage()
                         if dmg_val_to_opposing > 0:
                             opposing_formation.get_damage(dmg_val_to_opposing)
                             self.successful_attack_info(own_formation, opposing_formation)
+                            self.logging_successful_attack_info(own_formation, opposing_formation)
                             own_formation.incrs_unit_experience()
                             self.unit_experience_info(own_formation)
                         else:
                             self.units_recharging_info()
+                            self.logging_units_recharging_info()
 
                     else:
                         self.unsuccessful_attack_info(own_formation, opposing_formation)
+                        self.logging_unsuccessful_attack_info(own_formation, opposing_formation)
 
                 if army.check_army_is_active() is False:
                     self.destroyed_army_info(army)
-                    self._armies_set.remove(army)
+                    self.logging_destroyed_army_info(army)
+                    self._armies_set = {army for army in self._armies_set if army.check_army_is_active() is True}
                     lock = self.check_battle_is_over()
                     break
 
@@ -241,6 +313,7 @@ class Battle(BattleLog, JsonParser):
 
         for army in self._armies_set:
             self.winning_army_info(army)
+            self.logging_winning_army_info(army)
 
     def start(self) -> None:
         """

@@ -53,7 +53,7 @@ class Vehicle(Unitary, UnitMixin, UnitFactory):
 
     def to_attack(self) -> float:
         """
-        Сalculate the success rate of a vehicle’s attack.
+        Calculate the success rate of a vehicle’s attack.
         :return: (float)
         """
 
@@ -61,7 +61,7 @@ class Vehicle(Unitary, UnitMixin, UnitFactory):
 
     def to_damage(self) -> float:
         """
-        Сalculate the amount of damage caused by the vehicle to enemy.
+        Calculate the amount of damage caused by the vehicle to enemy.
         :return: (float)
         """
 
@@ -80,6 +80,10 @@ class Vehicle(Unitary, UnitMixin, UnitFactory):
         :return: (None)
         """
 
+        for operator in self._operators:
+            if operator._health <= 0:
+                self._operators.remove(operator)
+
         if len(self._operators) == 3:
             self.calc_operator_dmg(dmg_val, 0, 20)
             self.calc_operator_dmg(dmg_val, 1, 10)
@@ -90,12 +94,10 @@ class Vehicle(Unitary, UnitMixin, UnitFactory):
         elif len(self._operators) == 1:
             self.calc_operator_dmg(dmg_val, 0, 40)
 
-        for operator in self._operators:
-            if operator._health <= 0:
-                self._operators.remove(operator)
+        self._operators = [operator for operator in self._operators if operator._health > 0]
 
         health_list = ([operator.health for operator in self._operators])
-        if len(health_list) > 0:
+        if len(self._operators) > 0:
             health_list.append(self._health - ((dmg_val / 100) * 60))
             self._health = sum(health_list) / len(health_list)
 
@@ -135,7 +137,7 @@ class Vehicle(Unitary, UnitMixin, UnitFactory):
 
         for key, value in subclasses.items():
             if cls.__qualname__ == key:
-                return Vehicle()
+                return cls.__call__()
 
         return False
 
