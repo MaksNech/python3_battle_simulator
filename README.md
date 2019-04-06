@@ -1,4 +1,4 @@
-# Home task 4-9 (Battle simulator)
+# Battle simulator
 
 ## 1: Initial Setup
 
